@@ -15,6 +15,7 @@ Training configurations are set up with optimization algorithms using Adam and a
 Finally, the script visualizes the training results by plotting the training and validation loss and accuracy for both models, allowing for a clear comparison of their performances over the training epochs.
 
 # OBSERVATIONS WHILE PRODUCING RESULTS
-- n/a
+Saloni: I noticed that the code took a while to run, mostly because I am using my CPU rather than a GPU. The classical model took about 7 minutes to train 80 epochs, while the hybrid (with the quantum circuit) took around an hour. For this reason, I was hesitant to increase the number of epochs simply due to the time it takes. The code takes a significantly shorter amount of time to run on Darwin's machine, so he is taking care of a lot of the graphs. With 80 epochs, I was able to achieve about a 70% accuracy.
+
 # POTENTIAL AREAS OF QUANTUM CIRCUIT TO BE IMPROVED
 - n/a
