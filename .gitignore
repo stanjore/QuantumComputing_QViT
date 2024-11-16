@@ -7,4 +7,5 @@ best_state_on_training*
 Model_Hist/
 Figures/
 data/
+*history
 *.png
