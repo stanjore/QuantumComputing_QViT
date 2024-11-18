@@ -4,18 +4,19 @@ Experimentation for QViT technology. Goal is to reproduce results, and expand up
 Based on https://github.com/EyupBunlu/QViT_HEP_ML4Sci
 
 
-# CIRCUITS INFO
-The script installs necessary quantum computing libraries using the commands !pip install tensorcircuit and !pip install pennylane, which are essential for implementing quantum machine learning functions. It imports the QViT (Quantum Vision Transformer) module from the cloned repository in Google Colab or from a local path, depending on the execution environment. These components set up the groundwork for integrating quantum circuits into the machine learning workflows.
+## circuits.py functions
 
-# ML FUNCTIONS INFO
-Data preparation begins with downloading and preparing the MNIST dataset using mnist_trainset = MNIST(root='./data', train=True, download=True). The dataset is then transformed, applying resizing and normalization to the images through a composed transformation pipeline. Two different models, a classical model and a hybrid model, are initialized with specific configurations, using the command classical_model = HViT(...).to(device) and hybrid2_model = HViT(...).to(device).
+| Function              | Description |
+| :---------------- | :------ |
+| compute_attention(alphas,norms,compute_element)        |   Computes attention weights by iterating through a set of norms and alphas, applying a computation function, and generating normalized interaction matrices.  |
+| encode_token(circuit,data,nqubits)           |   Initializes a quantum circuit by applying Hadamard gates and parameterized rotations (Rx) based on input data.   |
+| qk_ansatz(circuit,data,parameters,nqubits)    |  Implements a quantum circuit ansatz for query-key computation, involving parameterized rotations (Rx, Ry) and entanglement layers using CNOT gates.  |
+| v_ansatz(circuits,data,parameters,nqubits) |  Implements a quantum circuit ansatz for value computation, similar to qk_ansatz, but for values rather than query-key pairs.   |
+| measure_query_key(data,parameters,nqubits) | Measures the query-key interactions by encoding input data into a quantum circuit, applying the qk_ansatz, and computing the expectation value on a specific qubit.|
+| measure_value(data,parameters,nqubits)|  Measures the value representation by encoding input data into a quantum circuit, applying the v_ansatz, and computing expectation values across multiple qubits. |
 
-Training configurations are set up with optimization algorithms using Adam and a cross-entropy loss function specified by loss_fn = nn.CrossEntropyLoss(reduction='none'). The training procedure is encapsulated in a function defined as def train(model, tr_dl, val_dl, loss_fn, optim, n_epochs, device='cuda'), which manages forward passes, loss calculation, and parameter updates. The training function is executed for both models, capturing their performance histories.
-
-Finally, the script visualizes the training results by plotting the training and validation loss and accuracy for both models, allowing for a clear comparison of their performances over the training epochs.
-
-# OBSERVATIONS WHILE PRODUCING RESULTS
-Saloni: I noticed that the code took a while to run, mostly because I am using my CPU rather than a GPU. The classical model took about 7 minutes to train 80 epochs, while the hybrid (with the quantum circuit) took around an hour. For this reason, I was hesitant to increase the number of epochs simply due to the time it takes. The code takes a significantly shorter amount of time to run on Darwin's machine, so he is taking care of a lot of the graphs. With 80 epochs, I was able to achieve about a 70% accuracy.
-
-# POTENTIAL AREAS OF QUANTUM CIRCUIT TO BE IMPROVED
-- n/a
+## Paper image descriptions
+| Image | Description |
+| :----------------: | :------ |
+| <img src="img/figure_3.png" width="500" /> | Input images are divided into patches of equal area and processed into a matrix. This matrix is processed by encoder layers, with outputs passed sequentially. The final encoder layer's first row is sent to a classifier for probabilities (Figure 3b). In the column-pooling variant, the matrix is reduced via mean or max pooling per column, producing a vector input for the classifier (Figure 3a). |
+| <img src="img/figure_4.png" width="200" /> | The multi-head attention layer splits the input matrix into submatrices by dividing its columns. Each submatrix is processed by an attention head, which then resizes it to the original input.|
